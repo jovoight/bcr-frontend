@@ -42,10 +42,6 @@ export const Header = ({ loggedIn, setLoggedIn, setUser }: HeaderProps) => {
             <Button>Search</Button>
           </NavLink>
           <Divider orientation="vertical" flexItem />
-          <NavLink to="/reports">
-            <Button>Reports</Button>
-          </NavLink>
-          <Divider orientation="vertical" flexItem />
           <Button
             onClick={() => {
               setLoggedIn(false);

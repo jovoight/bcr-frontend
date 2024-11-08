@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, MenuItem, TextField, Typography } from "@mui/material";
 import { ContextProps } from "../utils/props";
 import { useOutletContext } from "react-router-dom";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowsProp, GridToolbar } from "@mui/x-data-grid";
 
 export const SearchPage = () => {
   // column configs
@@ -131,7 +131,7 @@ export const SearchPage = () => {
             <MenuItem value="DVDs">DVDs</MenuItem>
             <MenuItem value="Rentals">Rentals</MenuItem>
           </TextField>
-          <DataGrid columns={activeCols} rows={activeRows} />
+          <DataGrid columns={activeCols} rows={activeRows} slots={{ toolbar: GridToolbar }} />
         </Box>
       ) : (
         <Typography>You are not logged in.</Typography>
