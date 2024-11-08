@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { Customer, Employee, Dvd } from "../utils/interfaces"
+import { Customer, Employee, Dvd, Rental } from "../utils/interfaces"
 
 // gets
 export const getUser = async (username: string, password: string): Promise<Employee> => {
@@ -33,6 +33,9 @@ export const createEmployee = async (employee: Employee) => {
 }
 export const createDvd = async (dvd: Dvd) => {
     await axios.post(import.meta.env.VITE_API + '/dvds', dvd);
+}
+export const createRental = async (rental: Rental) => {
+    await axios.post(import.meta.env.VITE_API + '/rentals', rental);
 }
 
 // updates

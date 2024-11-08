@@ -1,13 +1,10 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
 import { useOutletContext } from "react-router-dom";
 
 import { ContextProps } from "../utils/props";
 import { Employee, Customer, Dvd } from "../utils/interfaces";
 import { 
-  getCustomers, 
-  getEmployees, 
-  getDvds,
   createCustomer,
   createEmployee,
   createDvd,
@@ -20,11 +17,8 @@ import {
 } from "../utils/api";
  
 export const AdminPage = () => {
-  const {loggedIn}: ContextProps = useOutletContext();
+  const { loggedIn, customers, employees, dvds }: ContextProps = useOutletContext();
   const [action, setAction] = useState<string>('');
-  const [customers, setCustomers] = useState<Customer[]>([]);
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [dvds, setDvds] = useState<Dvd[]>([]);
   const [activeCustomer, setActiveCustomer] = useState<Customer>({
     name: '',
     address: ''
@@ -42,12 +36,6 @@ export const AdminPage = () => {
     genre: '',
     rental_category: 'Regular'
   });
-
-  useEffect(() => {
-    getCustomers().then(res => setCustomers(res));
-    getEmployees().then(res => setEmployees(res));
-    getDvds().then(res => setDvds(res));
-  }, []);
 
   // customer change handlers
   const handleSelectedCustomerChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -139,7 +127,7 @@ export const AdminPage = () => {
       alignItems: 'center',
       minHeight: '83vh',
     }} >
-      {loggedIn ? <> 
+      {loggedIn ?
       <Box component='form' onSubmit={handleSubmit} sx={{ 
         width: '100%', 
         maxWidth: '30rem',
@@ -156,6 +144,7 @@ export const AdminPage = () => {
           variant='filled'
           margin='dense'
           select
+          required
           fullWidth
           value={action}
           onChange={e => setAction(e.target.value)}
@@ -176,6 +165,7 @@ export const AdminPage = () => {
           variant='filled'
           margin='dense'
           label='Select Customer'
+          required
           fullWidth
           select
           onChange={handleSelectedCustomerChange}
@@ -189,6 +179,7 @@ export const AdminPage = () => {
           variant='filled'
           margin='dense'
           fullWidth
+          required
           label='Customer Name'
           value={activeCustomer.name}
           onChange={handleCustomerNameChange}
@@ -198,12 +189,14 @@ export const AdminPage = () => {
           margin='dense'
           fullWidth
           label='Customer Address'
+          required
           value={activeCustomer.address}
           onChange={handleCustomerAddressChange}
         />
         <TextField
           variant='filled'
           margin='dense'
+          required
           type='number'
           fullWidth
           label='Customer Late Fees'
@@ -220,6 +213,7 @@ export const AdminPage = () => {
           margin='dense'
           label='Select Employee'
           fullWidth
+          required
           select
           onChange={handleSelectedEmployeeChange}
         >
@@ -231,6 +225,7 @@ export const AdminPage = () => {
         <TextField
           variant='filled'
           margin='dense'
+          required
           fullWidth
           label='Employee Name'
           value={activeEmployee.name}
@@ -240,6 +235,7 @@ export const AdminPage = () => {
           variant='filled'
           margin='dense'
           fullWidth
+          required
           label='Employee Address'
           value={activeEmployee.address}
           onChange={handleEmployeeAddressChange}
@@ -248,6 +244,7 @@ export const AdminPage = () => {
           variant='filled'
           margin='dense'
           fullWidth
+          required
           label='Employee Username'
           value={activeEmployee.username}
           onChange={handleEmployeeUsernameChange}
@@ -256,6 +253,7 @@ export const AdminPage = () => {
           variant='filled'
           margin='dense'
           fullWidth
+          required
           label='Employee Password'
           value={activeEmployee.password}
           onChange={handleEmployeePasswordChange}
@@ -271,6 +269,7 @@ export const AdminPage = () => {
           margin='dense'
           label='Select Customer'
           fullWidth
+          required
           select
           onChange={handleSelectedCustomerChange}
         >
@@ -281,6 +280,7 @@ export const AdminPage = () => {
         {!action.includes('delete') && <>
         <TextField
           variant='filled'
+          required
           margin='dense'
           fullWidth
           label='Customer Name'
@@ -291,6 +291,7 @@ export const AdminPage = () => {
           variant='filled'
           margin='dense'
           fullWidth
+          required
           label='Customer Address'
           value={activeCustomer.address}
           onChange={handleCustomerAddressChange}
@@ -299,6 +300,7 @@ export const AdminPage = () => {
           variant='filled'
           margin='dense'
           type='number'
+          required
           fullWidth
           label='Customer Late Fees'
           value={activeCustomer.late_fees || 0}
@@ -311,6 +313,7 @@ export const AdminPage = () => {
         {!action.includes('create') && 
         <TextField
           variant='filled'
+          required
           margin='dense'
           label='Select DVD'
           fullWidth
@@ -324,6 +327,7 @@ export const AdminPage = () => {
         {!action.includes('delete') && <>
         <TextField
           variant='filled'
+          required
           margin='dense'
           fullWidth
           label='DVD Name'
@@ -333,6 +337,7 @@ export const AdminPage = () => {
         <TextField
           variant='filled'
           margin='dense'
+          required
           fullWidth
           label='DVD Description'
           value={activeDvd.description}
@@ -340,6 +345,7 @@ export const AdminPage = () => {
         />
         <TextField
           variant='filled'
+          required
           margin='dense'
           fullWidth
           label='DVD Genre'
@@ -349,6 +355,7 @@ export const AdminPage = () => {
         <TextField
           variant='filled'
           margin='dense'
+          required
           fullWidth
           label='DVD Rental Category'
           value={activeDvd.rental_category}
@@ -366,7 +373,7 @@ export const AdminPage = () => {
 
         <Button type='submit' variant='contained' sx={{m: '0.5rem', width: '6rem'}}>Submit</Button>
       </Box>
-      </> :
+      :
       <Typography>You are not logged in.</Typography>}
     </Box>
   );

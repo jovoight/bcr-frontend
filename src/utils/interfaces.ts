@@ -28,6 +28,6 @@ export interface Rental {
     payment_method: 'Cash' | 'Debit' | 'Credit';
     rent_date: string;
     due_date: string;
-    return_date: string;
+    return_date?: string;
     payment_amount: number;
 }
