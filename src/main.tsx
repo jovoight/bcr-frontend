@@ -4,10 +4,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 
 import { Root } from './routes/Root';
-import { HomePage } from './routes/HomePage';
 import { LoginPage } from './routes/LoginPage';
 import { AdminPage } from './routes/AdminPage';
 import { RentalPage } from './routes/RentalPage';
+import { ReturnPage } from './routes/ReturnPage';
 import { SearchPage } from './routes/SearchPage';
 import { ReportPage } from './routes/ReportPage';
 
@@ -20,6 +20,7 @@ const router = createBrowserRouter([{
         { index: true, element: <LoginPage /> },
         { path: 'admin', element: <AdminPage /> },
         { path: 'rental', element: <RentalPage /> },
+        { path: 'return', element: <ReturnPage /> },
         { path: 'search', element: <SearchPage /> },
         { path: 'report', element: <ReportPage /> }
     ]

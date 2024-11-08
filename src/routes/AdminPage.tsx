@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
+import { InputAdornment, Box, Button, FormControlLabel, Checkbox, MenuItem, TextField, Typography } from "@mui/material";
 import { useOutletContext } from "react-router-dom";
 
 import { ContextProps } from "../utils/props";
@@ -193,6 +193,7 @@ export const AdminPage = () => {
           value={activeCustomer.address}
           onChange={handleCustomerAddressChange}
         />
+        {action !== 'createCustomer' && 
         <TextField
           variant='filled'
           margin='dense'
@@ -200,9 +201,14 @@ export const AdminPage = () => {
           type='number'
           fullWidth
           label='Customer Late Fees'
-          value={activeCustomer.late_fees || 0}
+          slotProps={{
+            input: {
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            },
+          }}
+          value={activeCustomer.late_fees}
           onChange={handleCustomerLateFeesChange}
-        />
+        />}
         </>}
         </>}
         
@@ -260,55 +266,6 @@ export const AdminPage = () => {
         />
         </>}
         </>}
-
-        
-        {action.includes('Customer') && <>
-        {!action.includes('create') && 
-        <TextField
-          variant='filled'
-          margin='dense'
-          label='Select Customer'
-          fullWidth
-          required
-          select
-          onChange={handleSelectedCustomerChange}
-        >
-          {customers.map((customer, index) =>
-            <MenuItem key={index} value={customer.name}>{customer.name}</MenuItem>
-          )}
-        </TextField>}
-        {!action.includes('delete') && <>
-        <TextField
-          variant='filled'
-          required
-          margin='dense'
-          fullWidth
-          label='Customer Name'
-          value={activeCustomer.name}
-          onChange={handleCustomerNameChange}
-        />
-        <TextField
-          variant='filled'
-          margin='dense'
-          fullWidth
-          required
-          label='Customer Address'
-          value={activeCustomer.address}
-          onChange={handleCustomerAddressChange}
-        />
-        <TextField
-          variant='filled'
-          margin='dense'
-          type='number'
-          required
-          fullWidth
-          label='Customer Late Fees'
-          value={activeCustomer.late_fees || 0}
-          onChange={handleCustomerLateFeesChange}
-        />
-        </>}
-        </>}
-
         {action.includes('Dvd') && <>
         {!action.includes('create') && 
         <TextField
@@ -370,6 +327,7 @@ export const AdminPage = () => {
         </>}
         </>}
 
+        {action === 'createCustomer' && <FormControlLabel control={<Checkbox />} label='Customer has valid ID' required />}
 
         <Button type='submit' variant='contained' sx={{m: '0.5rem', width: '6rem'}}>Submit</Button>
       </Box>

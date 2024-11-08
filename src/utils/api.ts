@@ -23,6 +23,11 @@ export const getDvds = async (): Promise<Dvd[]> => {
     const dvds: Dvd[] = res.data;
     return dvds;
 }
+export const getRentals = async (): Promise<Rental[]> => {
+    const res = await axios.get(import.meta.env.VITE_API + '/rentals');
+    const rentals: Rental[] = res.data;
+    return rentals;
+}
 
 // creates
 export const createCustomer = async (customer: Customer) => {
