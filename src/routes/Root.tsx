@@ -7,7 +7,7 @@ import { Footer } from '../components/Footer';
 import { Employee } from '../utils/interfaces';
 
 export const Root = () => {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(true);
   const [user, setUser] = useState<Employee | null>(null);
   return (
     <Box>
