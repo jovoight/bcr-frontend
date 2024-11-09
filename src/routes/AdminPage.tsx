@@ -1,5 +1,5 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import { InputAdornment, Box, Button, FormControlLabel, Checkbox, MenuItem, TextField, Typography } from "@mui/material";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
+import { InputAdornment, Box, Button, FormControlLabel, Checkbox, MenuItem, TextField, Typography, Alert } from "@mui/material";
 import { useOutletContext } from "react-router-dom";
 
 import { ContextProps } from "../utils/props";
@@ -13,12 +13,27 @@ import {
   updateDvd,
   deleteCustomer,
   deleteEmployee,
-  deleteDvd
+  deleteDvd,
+  getCustomers,
+  getEmployees,
+  getDvds
 } from "../utils/api";
  
 export const AdminPage = () => {
-  const { loggedIn, customers, employees, dvds }: ContextProps = useOutletContext();
+  // update everything when you navigate to this page
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [dvds, setDvds] = useState<Dvd[]>([]);
+  useEffect(() => {
+    getCustomers().then(res => setCustomers(res));
+    getEmployees().then(res => setEmployees(res));
+    getDvds().then(res => setDvds(res));
+  }, []);
+
+  const { loggedIn }: ContextProps = useOutletContext();
   const [action, setAction] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
   const [activeCustomer, setActiveCustomer] = useState<Customer>({
     name: '',
     address: ''
@@ -105,17 +120,24 @@ export const AdminPage = () => {
   // form submit handler
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    switch (action) {
-      case ('createCustomer'): createCustomer(activeCustomer); break;
-      case ('updateCustomer'): updateCustomer(activeCustomer); break;
-      case ('deleteCustomer'): deleteCustomer(activeCustomer); break;
-      case ('createEmployee'): createEmployee(activeEmployee); break;
-      case ('updateEmployee'):updateEmployee(activeEmployee); break;
-      case ('deleteEmployee'): deleteEmployee(activeEmployee); break;
-      case ('createDvd'): createDvd(activeDvd); break;
-      case ('updateDvd'): updateDvd(activeDvd); break;
-      case ('deleteDvd'): deleteDvd(activeDvd); break;
-      default: break;
+    try {
+      switch (action) {
+        case ('createCustomer'): createCustomer(activeCustomer); break;
+        case ('updateCustomer'): updateCustomer(activeCustomer); break;
+        case ('deleteCustomer'): deleteCustomer(activeCustomer); break;
+        case ('createEmployee'): createEmployee(activeEmployee); break;
+        case ('updateEmployee'):updateEmployee(activeEmployee); break;
+        case ('deleteEmployee'): deleteEmployee(activeEmployee); break;
+        case ('createDvd'): createDvd(activeDvd); break;
+        case ('updateDvd'): updateDvd(activeDvd); break;
+        case ('deleteDvd'): deleteDvd(activeDvd); break;
+        default: break;
+      }
+      setError('');
+      setSuccess(true);
+    } catch {
+      setSuccess(false);
+      setError('Something went wrong.');
     }
   }
 
@@ -330,6 +352,8 @@ export const AdminPage = () => {
         {action === 'createCustomer' && <FormControlLabel control={<Checkbox />} label='Customer has valid ID' required />}
 
         <Button type='submit' variant='contained' sx={{m: '0.5rem', width: '6rem'}}>Submit</Button>
+        {error && <Alert severity="error">{error}</Alert>}
+        {success && <Alert severity="success">Successfully Submitted</Alert>}
       </Box>
       :
       <Typography>You are not logged in.</Typography>}

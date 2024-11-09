@@ -3,8 +3,30 @@ import { Box, MenuItem, TextField, Typography } from "@mui/material";
 import { ContextProps } from "../utils/props";
 import { useOutletContext } from "react-router-dom";
 import { DataGrid, GridColDef, GridRowsProp, GridToolbar } from "@mui/x-data-grid";
+import { Customer, Employee, Dvd, Rental } from "../utils/interfaces";
+import { getCustomers, getDvds, getEmployees, getRentals } from "../utils/api";
 
 export const SearchPage = () => {
+  const { loggedIn }: ContextProps = useOutletContext();
+  const [searchType, setSearchType] = useState<
+    "Customers" | "Employees" | "DVDs" | "Rentals" | ""
+  >("");
+  // update everything when you navigate to this page
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [dvds, setDvds] = useState<Dvd[]>([]);
+  const [rentals, setRentals] = useState<Rental[]>([]);
+  useEffect(() => {
+    getCustomers().then(res => setCustomers(res));
+    getEmployees().then(res => setEmployees(res));
+    getDvds().then(res => setDvds(res));
+    getRentals().then(res => setRentals(res));
+  }, []);
+
+  // rows and cols
+  const [activeRows, setActiveRows] = useState<GridRowsProp>([]);
+  const [activeCols, setActiveCols] = useState<GridColDef[]>([]);
+
   // column configs
   const customerCols: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -62,14 +84,7 @@ export const SearchPage = () => {
     { field: "return_date", headerName: "Return Date", flex: 1 },
   ];
 
-  const { loggedIn, customers, employees, dvds, rentals }: ContextProps =
-    useOutletContext();
-  const [searchType, setSearchType] = useState<
-    "Customers" | "Employees" | "DVDs" | "Rentals"
-  >("Customers");
-  const [activeRows, setActiveRows] = useState<GridRowsProp>(customers);
-  const [activeCols, setActiveCols] = useState<GridColDef[]>(customerCols);
-
+    
   useEffect(() => {
     switch (searchType) {
       case "Customers":

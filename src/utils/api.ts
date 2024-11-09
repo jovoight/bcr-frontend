@@ -31,6 +31,7 @@ export const getRentals = async (): Promise<Rental[]> => {
 
 // creates
 export const createCustomer = async (customer: Customer) => {
+    console.log(customer);
     await axios.post(import.meta.env.VITE_API + '/customers', customer);
 }
 export const createEmployee = async (employee: Employee) => {
@@ -55,6 +56,9 @@ export const updateEmployee = async (employee: Employee) => {
 export const updateDvd = async (dvd: Dvd) => {
     await axios.put(import.meta.env.VITE_API + '/dvds', dvd);
 }
+export const updateRental = async (rental: Rental) => {
+    await axios.put(import.meta.env.VITE_API + '/rentals', rental);
+}
 
 // deletes
 export const deleteCustomer = async (customer: Customer) => {
@@ -66,3 +70,4 @@ export const deleteEmployee = async (employee: Employee) => {
 export const deleteDvd = async (dvd: Dvd) => {
     await axios.delete(import.meta.env.VITE_API + `/dvds/${dvd.id}`);
 }
+// rentals should never be deleted for history purposes

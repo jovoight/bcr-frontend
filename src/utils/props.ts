@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Customer, Dvd, Employee, Rental } from "./interfaces";
+import { Employee } from "./interfaces";
 
 export interface HeaderProps {
 	loggedIn: boolean;
@@ -12,8 +12,4 @@ export interface ContextProps {
 	setLoggedIn: Dispatch<SetStateAction<boolean>>;
 	user: Employee;
 	setUser: Dispatch<SetStateAction<Employee | null>>;
-	customers: Customer[];
-	employees: Employee[];
-	dvds: Dvd[];
-	rentals: Rental[];
 }

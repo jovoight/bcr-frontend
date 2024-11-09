@@ -1,31 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
-import { Customer, Employee, Dvd, Rental } from '../utils/interfaces';
-import {
-  getCustomers,
-  getEmployees,
-  getDvds,
-  getRentals
-} from '../utils/api';
+import { Employee } from '../utils/interfaces';
 
 export const Root = () => {
+
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<Employee | null>(null);
-  const [customers, setCustomers] = useState<Customer[]>([]);
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [dvds, setDvds] = useState<Dvd[]>([]);
-  const [rentals, setRentals] = useState<Rental[]>([]);
-
-  useEffect(() => {
-    getCustomers().then(res => setCustomers(res));
-    getEmployees().then(res => setEmployees(res));
-    getDvds().then(res => setDvds(res));
-    getRentals().then(res => setRentals(res));
-  }, []);
 
   return (
     <Box>
@@ -36,10 +20,6 @@ export const Root = () => {
           setLoggedIn: setLoggedIn,
           user: user,
           setUser: setUser, 
-          customers: customers,
-          employees: employees,
-          dvds: dvds,
-          rentals: rentals
         }} />
       </Box>
       <Footer />
