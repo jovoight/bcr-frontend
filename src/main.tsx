@@ -24,7 +24,7 @@ const router = createBrowserRouter([{
         { path: 'return', element: <ReturnPage /> },
         { path: 'search', element: <SearchPage /> },
     ]
-}], { future: { v7_normalizeFormMethod: true } });
+}], { basename: '/bcr-frontend' });
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
