@@ -63,9 +63,9 @@ export const SearchPage = () => {
   ];
   const rentalCols: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "customer_id", headerName: "Customer ID", flex: 0.75 },
-    { field: "dvd_id", headerName: "DVD ID", flex: 0.75 },
-    { field: "employee_id", headerName: "Employee ID", flex: 0.75 },
+    { field: "customerName", headerName: "Customer", flex: 0.75 },
+    { field: "dvdName", headerName: "DVD", flex: 0.75 },
+    { field: "employeeName", headerName: "Employee", flex: 0.75 },
     { field: "payment_method", headerName: "Payment Method", flex: 1 },
     {
       field: "payment_amount",
@@ -100,7 +100,17 @@ export const SearchPage = () => {
         setActiveCols(employeeCols);
         break;
       case "Rentals":
-        setActiveRows(rentals);
+        setActiveRows(rentals.map(rental => ({
+          id: rental.id,
+          customerName: customers.find(customer => customer.id === rental.customer_id)!.name,
+          dvdName: dvds.find(dvd => dvd.id === rental.dvd_id)!.name,
+          employeeName: employees.find(employee => employee.id === rental.employee_id)!.name,
+          payment_method: rental.payment_method,
+          payment_amount: rental.payment_amount,
+          rent_date: rental.rent_date,
+          due_date: rental.due_date,
+          return_date: rental.return_date
+        })));
         setActiveCols(rentalCols);
         break;
       default:
